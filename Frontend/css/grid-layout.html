@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .parent{
+            display: grid;
+            height:500px;
+            grid-template-columns: repeat(3,1fr);
+            grid-gap:10px;
+        }
+        .child{
+            background-color: crimson;
+            color: white;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .layout-1{
+            /*grid-column-start:1;
+            grid-column-end:3;
+            grid-row-start: 1;
+            grid-row-end:3;*/
+            grid-column:1/3;
+            grid-row:1/3;
+        }
+        .layout-2{
+            grid-row-start: 1;
+            grid-row-end:3;
+        }
+        .layout-3{
+            grid-row-start:3;
+            grid-row-end:5;
+        }
+        .layout-4{ 
+            grid-area:3/2/5/4;
+           /* grid-column-start:2;
+            grid-column-end:4;
+            grid-row-start:3;
+            grid-row-end:5; 
+            grid area: rsatrt/columnstart/row end/columnend*/
+
+        }
+        .layout-5{
+             grid-column-start:1;
+            grid-column-end:4;
+            grid-row-start:5;
+            grid-row-end:8;
+        }
+        .layout-6{
+          grid-column-start:1;
+            grid-column-end:3;
+            grid-row-start:8;
+            grid-row-end:11;
+        }
+        .layout-7{
+             grid-column-start:3;
+            grid-column-end:4;
+            grid-row-start:8;
+            grid-row-end:13;
+        }
+        .layout-8{
+            grid-column-start:1;
+            grid-column-end: 3;
+            grid-row-start:11;
+            grid-row-end:13;
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="child layout-1">layout 1</div>
+        <div class="child layout-2">layout 2</div>
+        <div class="child layout-3">layout 3</div>
+        <div class="child layout-4">layout 4</div>
+        <div class="child layout-5">layout 5</div>
+        <div class="child layout-6">layout 6</div>
+        <div class="child layout-7">layout 7</div>
+        <div class="child layout-8">layout 8</div>
+    </div></body>
+</html>

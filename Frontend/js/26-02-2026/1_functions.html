@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>functions in Js</title>
+    
+
+</head>
+<body>
+    <h1>function in JS</h1>
+    <p>1.built-in-math.floor</p>
+    <p> user-defined</p>
+    <p>1.function decleration</p>
+    <pre>
+        function fun_name(parameters){
+            //code
+        }
+        fun_name(args);
+    </pre>
+    <p>2.function expression</p>  
+    <pre>
+        const fun_name=function(parameters){
+            //code
+        }
+        fun_name(args);
+    </pre>
+    <p>3.arrow function</p>
+    <pre>
+        const fun_name=(parameters)=>{
+            //code
+        }
+        fun_name(args);
+    </pre>
+      <pre>
+        1.function taking parameters and returning value(1,1)
+        2.function taking parameters and not returning value(1,0)
+        3.function not taking parameters and returning value(0,1)
+        4.function not taking parameters and returning value(0,0)
+      </pre>
+      <p> NaN=NOT A NUMBER</p>
+    <script>
+     const add=function(a,b){
+        return a+b;
+     }
+     const res=add(10,20);
+     console.log("Add:",res);
+      
+     const sub=function (a,b){
+        console.log("Sub:",(a-b));
+     }
+     sub(20,30);
+
+     const mul = function(){
+     return 10*30;
+     }
+     const res1=mul();
+     console.log("mul:",res1);
+
+     const div=function (){
+        console.log("Div:",10/2);
+     }
+     div();
+
+      const modulus=function(a,b){
+       console.log("modulus:",(a%b));
+
+      }
+      modulus(10,3);
+    </script>
+    <script>
+     const add1=(a,b) =>{
+        return a + b;
+     }
+     const res2=add1(10,20);
+     console.log("Add:",res2);
+     
+     const sub2=(a,b)=>{
+        console.log("sub2:",(a-b));
+     }
+     sub2(20,30)
+
+    </script>
+</body>
+</html>

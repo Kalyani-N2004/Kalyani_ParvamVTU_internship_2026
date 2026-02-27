@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>array in 35</h1>
+    <pre>
+        1.push
+        2.pop
+        3.unshift
+        4.shift
+        5.indexof
+        6.foreach
+        7.map-map is used to create a new arrayby 
+        8.filter
+        9.reduce
+        10.sort
+        11.find
+        12.splice
+        13.each
+        14.some
+    </pre>
+    <script>
+        const arr=[1,2,3,4,5];
+        console.log("Array:",arr)
+        arr.push(6);
+        console.log("push:",arr);
+
+        const ele=arr.pop();
+        console.log("popped element:",ele);
+        console.log("pop:",arr);
+
+        const ele1=arr.shift();
+        console.log("shifted element:",ele1);
+        console.log("shift:",arr);
+
+        arr.unshift(0);
+        console.log("unshift:",arr);
+
+        const index=arr.indexOf(5);
+        console.log("index is :",index);
+
+        const arr1=[1,2,3,true,"world",{name:"pavan"}];
+        arr1.forEach((ele,index,arr2)=>{
+            console.log("ele:",ele,"index:",index,"Array:",arr2);
+        });
+
+        const arr2=[2,4,6,8,10];
+        const arr3=arr2.map((ele)=>{
+            return ele*ele;
+        })
+        console.log("array3:",arr3);
+
+        const arr4=[1,2,3,4,5,6,7,8,9,10];
+        const arr5=arr4.filter((ele)=>{
+            return ele%2==0
+        })
+        console.log("Array5:",arr5);
+
+        const res6=arr4.reduce((pre,cur)=>{
+            return pre+cur;
+        },10);
+        console.log("res6:",res6)
+
+    </script>
+</body>
+</html>
