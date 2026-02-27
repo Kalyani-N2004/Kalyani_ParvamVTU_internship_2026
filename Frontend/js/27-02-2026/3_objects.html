@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>object in JS</h1>
+    <p>key value pair</p>
+    <script>
+        const obj1={
+            firstName:"pavan",
+            lastName:"kumar",
+            "kannada marks":60,
+            marks:50.80,
+            isPass:true,
+            iswalking:()=>{
+                console.log("yes,he is walking");
+            },
+            marks1:[20,40,50,60],
+            issleeping:()=>{
+                return "yes he is sleeping";
+            }
+        }
+        console.log("first name:",obj1.firstName);
+        console.log("last name:",obj1.lastName);
+        console.log("kannada marks:",obj1["kannada marks"]);
+        obj1.iswalking();
+        console.log(obj1.marks1[2]);
+        console.log(obj1.issleeping());
+    </script>
+</body>
+</html>

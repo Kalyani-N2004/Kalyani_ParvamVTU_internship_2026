@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./2_js types.js"></script>
+</head>
+<body>
+    <h1>how many ways</h1>
+    <p id="demo">demo</p>
+    <button onclick="document.getElementById('demo').innerText='inline js'">inline js</button>
+    <button onclick="internaljs()">internal js</button>
+    <button onclick="externaljs()">external js</button>
+
+    <script>
+        function internaljs(){
+            document.getElementById('demo').innerText="internal js"
+        }
+    </script>
+</body>
+</html>
