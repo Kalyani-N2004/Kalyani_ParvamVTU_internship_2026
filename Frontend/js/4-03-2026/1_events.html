@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="contact-form" novalidate>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" placeholder="Enter name">
+        <br>
+        <label for="email">email:</label>
+        <input type="email" name="email" id="email" placeholder="Enter email">
+        <br>
+        <label>gender:</label><br>
+        <label for="male">male:</label>
+        <input type="radio" name="gender" id="male" value="male"/>
+        <label for="female">female:</label>
+        <input type="radio" name="gender" id="female" value="female"/>
+        <br>
+        <label for="city">City:</label>
+        <select name="city" id="city">
+            <option value="bengaluru">benagluru</option>
+            <option value="mumbai">mumbai</option>
+        </select>
+        <br>
+        <button type="submit">submit</button>
+     </form>
+        <script>
+            const email=document.querySelector("#email");
+            email.addEventListener("blur",(event)=>{
+                console.log("Blur event trigger value is :",event.target.value);
+            });
+            //change
+            const city=document.getElementById("city");
+            city.addEventListener("change",(e)=>{
+                console.log("city value changes:",e.target.value);
+            });
+            //focus
+            const name=document.querySelector("#name");
+            name.addEventListener("focus",()=>{
+                console.log("name input field focus");
+
+            });
+            //submit
+            const contactform=document.querySelector("#contact-form");
+            contactform.addEventListener("submit",(e)=>{
+                e.preventDefault();
+                console.log("form is submitted");
+            })
+
+        </script>
+</body>
+</html>

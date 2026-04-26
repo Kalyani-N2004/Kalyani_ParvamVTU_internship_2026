@@ -1,0 +1,13 @@
+package string_java;
+
+class Stringbuilder1 {
+	    public static void main(String[] args) {
+	        StringBuilder build = new StringBuilder();
+	        build.append("Hello");
+	        build.append(" World");
+	        
+	        System.out.println(build);
+	    }
+	}
+
+
