@@ -2,6 +2,7 @@ package com.kalyani.finance.controller;
 
 import com.kalyani.finance.entity.User;
 import com.kalyani.finance.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,31 +14,43 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    // Login Page
+    // ================= LOGIN PAGE =================
     @GetMapping("/login")
     public String loginPage() {
         return "login";
     }
 
-    // LOGIN SUBMIT (FIXED)
+    // ================= LOGIN PROCESS =================
     @PostMapping("/login")
-    public String loginUser() {
-        return "redirect:/dashboard";   // ✅ FIXED HERE
+    public String login(@RequestParam("email") String email,
+                        @RequestParam("password") String password,
+                        HttpSession session,
+                        Model model) {
+
+        User user = userService.loginUser(email, password);
+
+        if (user != null) {
+            session.setAttribute("user", user);
+            return "redirect:/dashboard";
+        } else {
+            model.addAttribute("error", "Invalid email or password");
+            return "login";
+        }
     }
 
-    // Register Page
+    // ================= REGISTER PAGE =================
     @GetMapping("/register")
     public String registerPage() {
         return "register";
     }
 
-    // Save User
+    // ================= REGISTER SAVE =================
     @PostMapping("/register/save")
     public String registerUser(@ModelAttribute User user, Model model) {
 
         String result = userService.saveUser(user);
 
-        if(result.equals("Email already registered!")) {
+        if ("Email already registered!".equals(result)) {
             model.addAttribute("message", result);
             return "register";
         }

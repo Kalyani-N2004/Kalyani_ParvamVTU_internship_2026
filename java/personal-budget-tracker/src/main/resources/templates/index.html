@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+
+<h2>Personal Budget Tracker Dashboard</h2>
+
+<!-- Balance -->
+<h3>Balance: <span th:text="${balance}"></span></h3>
+<h3>Income: <span th:text="${income}"></span></h3>
+<h3>Expense: <span th:text="${expense}"></span></h3>
+
+<hr>
+
+<!-- Add Transaction Form -->
+<h3>Add Transaction</h3>
+
+<form action="/addTransaction" method="post">
+
+    <input type="text" name="title" placeholder="Title" required>
+    <br><br>
+
+    <input type="number" name="amount" placeholder="Amount" required>
+    <br><br>
+
+    <select name="type">
+        <option value="INCOME">INCOME</option>
+        <option value="EXPENSE">EXPENSE</option>
+    </select>
+
+    <br><br>
+
+    <button type="submit">Add</button>
+</form>
+
+<hr>
+
+<!-- Transaction Table -->
+<h3>Transactions</h3>
+
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Amount</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Action</th>
+    </tr>
+
+    <tr th:each="t : ${transactions}">
+        <td th:text="${t.title}"></td>
+        <td th:text="${t.amount}"></td>
+        <td th:text="${t.type}"></td>
+        <td th:text="${t.date}"></td>
+
+        <td>
+            <a th:href="@{'/delete/' + ${t.id}}">Delete</a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -1,13 +1,11 @@
 package com.kalyani.finance.repository;
 
-import java.util.Optional;
-
+import com.kalyani.finance.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.kalyani.finance.entity.User;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
-
 }
