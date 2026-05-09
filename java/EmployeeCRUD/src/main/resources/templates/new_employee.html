@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+
 <head>
     <title>Add Employee</title>
 </head>
+
 <body>
 
-<h2>Add / Edit Employee</h2>
+<section>
+    <h2>Employee Form</h2>
 
-<form th:action="@{/saveEmployee}" th:object="${employee}" method="post">
+    <form action="/saveEmployee" th:object="${employee}" method="post">
 
-    <!-- IMPORTANT: hidden ID for UPDATE -->
-    <input type="hidden" th:field="*{id}" />
+        <!-- IMPORTANT: hidden ID field -->
+        <input type="hidden" th:field="*{id}" />
 
-    Name:
-    <input type="text" th:field="*{name}" />
-    <br><br>
+        Name:
+        <input type="text" th:field="*{name}"><br><br>
 
-    Email:
-    <input type="text" th:field="*{email}" />
-    <br><br>
+        Email:
+        <input type="text" th:field="*{email}"><br><br>
 
-    Department:
-    <input type="text" th:field="*{department}" />
-    <br><br>
+        Department:
+        <input type="text" th:field="*{department}"><br><br>
 
-    Salary:
-    <input type="text" th:field="*{salary}" />
-    <br><br>
+        Salary:
+        <input type="text" th:field="*{salary}"><br><br>
 
-    <button type="submit">Save</button>
+        <button type="submit" class="btn btn-success">Save</button>
 
-</form>
-
+    </form>
+</section>
 </body>
 </html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finance Dashboard</title>
+</head>
+<body>
+
+<h1>Personal Finance Tracker</h1>
+
+<h2>Balance: <span th:text="${balance}"></span></h2>
+
+<a href="/add">Add Transaction</a>
+
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Amount</th>
+        <th>Type</th>
+        <th>Date</th>
+    </tr>
+
+    <tr th:each="t : ${transactions}">
+        <td th:text="${t.title}"></td>
+        <td th:text="${t.amount}"></td>
+        <td th:text="${t.type}"></td>
+        <td th:text="${t.date}"></td>
+    </tr>
+
+</table>
+
+</body>
+</html>

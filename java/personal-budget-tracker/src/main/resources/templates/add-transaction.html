@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Transaction</title>
+</head>
+<body>
+
+<h1>Add Transaction</h1>
+
+<form action="/add" method="post">
+
+    Title:
+    <input type="text" name="title" required><br><br>
+
+    Amount:
+    <input type="number" name="amount" required><br><br>
+
+    Type:
+    <select name="type">
+        <option value="INCOME">Income</option>
+        <option value="EXPENSE">Expense</option>
+    </select><br><br>
+
+    <button type="submit">Save</button>
+
+</form>
+
+<br>
+<a href="/home">Back to Home</a>
+
+</body>
+</html>

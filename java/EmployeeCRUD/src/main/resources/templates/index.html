@@ -1,46 +1,58 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+
 <head>
-    <title>Employee List</title>
+    <title>Employee Home</title>
 </head>
+
 <body>
 
-<h2>Employee List</h2>
+<section>
+    <h2>Employee List</h2>
 
-<a href="/showNewEmployeeForm">Add Employee</a>
+    <table class="table table-bordered">
 
-<br><br>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Salary</th>
+            <th>Actions</th>
+        </tr>
 
-<table border="1">
+        <tr th:each="emp : ${listEmployees}">
+            <td th:text="${emp.id}"></td>
+            <td th:text="${emp.name}"></td>
+            <td th:text="${emp.email}"></td>
+            <td th:text="${emp.department}"></td>
+            <td th:text="${emp.salary}"></td>
 
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Department</th>
-        <th>Salary</th>
-        <th>Action</th>
-    </tr>
+            <!-- ACTION BUTTONS -->
+            <td>
+                <!-- EDIT -->
+                <a th:href="@{/showFormForUpdate/{id}(id=${emp.id})}"
+                   class="btn btn-primary btn-sm">
+                    Edit
+                </a>
 
-    <tr th:each="emp : ${listEmployees}">
-        <td th:text="${emp.id}"></td>
-        <td th:text="${emp.name}"></td>
-        <td th:text="${emp.email}"></td>
-        <td th:text="${emp.department}"></td>
-        <td th:text="${emp.salary}"></td>
+                <!-- DELETE -->
+                <a th:href="@{/deleteEmployee/{id}(id=${emp.id})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Are you sure you want to delete this employee?');">
+                    Delete
+                </a>
+            </td>
+        </tr>
 
-        <td>
-            <!-- EDIT BUTTON -->
-            <a th:href="@{'/showFormForUpdate/' + ${emp.id}}">Edit</a>
+    </table>
 
-            |
+    <a class="btn btn-success" href="/showNewEmployeeForm">
+        Add Employee
+    </a>
 
-            <!-- DELETE BUTTON -->
-            <a th:href="@{'/deleteEmployee/' + ${emp.id}}">Delete</a>
-        </td>
-    </tr>
-
-</table>
+</section>
 
 </body>
 </html>
