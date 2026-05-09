@@ -1,14 +1,14 @@
 package com.kalyani.finance.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class HomeController {
 
+    // ROOT URL → redirect to dashboard
     @GetMapping("/")
     public String home() {
-
-        return "Personal Finance Tracker Running Successfully";
+        return "redirect:/dashboard";
     }
 }

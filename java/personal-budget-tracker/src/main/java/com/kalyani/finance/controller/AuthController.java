@@ -2,13 +2,10 @@ package com.kalyani.finance.controller;
 
 import com.kalyani.finance.entity.User;
 import com.kalyani.finance.service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AuthController {
@@ -19,21 +16,18 @@ public class AuthController {
     // Login Page
     @GetMapping("/login")
     public String loginPage() {
-
         return "login";
     }
 
-    // Login Submit
+    // LOGIN SUBMIT (FIXED)
     @PostMapping("/login")
     public String loginUser() {
-
-        return "redirect:/home";
+        return "redirect:/dashboard";   // ✅ FIXED HERE
     }
 
     // Register Page
     @GetMapping("/register")
     public String registerPage() {
-
         return "register";
     }
 
@@ -43,15 +37,11 @@ public class AuthController {
 
         String result = userService.saveUser(user);
 
-        // Duplicate email
         if(result.equals("Email already registered!")) {
-
             model.addAttribute("message", result);
-
             return "register";
         }
 
-        // Success
         return "redirect:/login?success";
     }
 }

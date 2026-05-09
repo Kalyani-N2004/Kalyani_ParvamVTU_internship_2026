@@ -14,31 +14,69 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    // Save transaction
+    // =========================
+    // SAVE TRANSACTION
+    // =========================
     public Transaction saveTransaction(Transaction transaction) {
+
         transaction.setDate(LocalDate.now());
+
+        // normalize type
+        if (transaction.getType() != null) {
+            transaction.setType(transaction.getType().trim().toUpperCase());
+        }
+
         return transactionRepository.save(transaction);
     }
 
-    // Get all transactions
+    // =========================
+    // GET ALL TRANSACTIONS
+    // =========================
     public List<Transaction> getAllTransactions() {
         return transactionRepository.findAll();
     }
 
-    // Calculate balance
-    public Double getBalance() {
+    // =========================
+    // GET BY ID (FIX FOR YOUR ERROR)
+    // =========================
+    public Transaction getById(Long id) {
+        return transactionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + id));
+    }
 
-        double income = 0;
-        double expense = 0;
+    // =========================
+    // TOTAL INCOME
+    // =========================
+    public double getTotalIncome() {
+        return transactionRepository.findAll()
+                .stream()
+                .filter(t -> "INCOME".equalsIgnoreCase(t.getType()))
+                .mapToDouble(Transaction::getAmount)
+                .sum();
+    }
 
-        for (Transaction t : transactionRepository.findAll()) {
-            if (t.getType().equalsIgnoreCase("INCOME")) {
-                income += t.getAmount();
-            } else if (t.getType().equalsIgnoreCase("EXPENSE")) {
-                expense += t.getAmount();
-            }
-        }
+    // =========================
+    // TOTAL EXPENSE
+    // =========================
+    public double getTotalExpense() {
+        return transactionRepository.findAll()
+                .stream()
+                .filter(t -> "EXPENSE".equalsIgnoreCase(t.getType()))
+                .mapToDouble(Transaction::getAmount)
+                .sum();
+    }
 
-        return income - expense;
+    // =========================
+    // BALANCE
+    // =========================
+    public double getBalance() {
+        return getTotalIncome() - getTotalExpense();
+    }
+
+    // =========================
+    // DELETE TRANSACTION
+    // =========================
+    public void deleteTransaction(Long id) {
+        transactionRepository.deleteById(id);
     }
 }

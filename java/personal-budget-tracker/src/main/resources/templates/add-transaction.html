@@ -1,32 +1,95 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Add Transaction</title>
+    <title>Add Transaction | Finance Tracker</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0d1b2a, #1b263b);
+            height: 100vh;
+        }
+
+        .form-card {
+            width: 450px;
+            margin: auto;
+            margin-top: 80px;
+            padding: 30px;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #0d1b2a;
+        }
+
+        .btn-primary {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+        }
+
+        label {
+            font-weight: 500;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
 </head>
+
 <body>
 
-<h1>Add Transaction</h1>
+<div class="form-card">
 
-<form action="/add" method="post">
+    <h3 class="title">Add Transaction</h3>
 
-    Title:
-    <input type="text" name="title" required><br><br>
+    <form action="/addTransaction" method="post">
 
-    Amount:
-    <input type="number" name="amount" required><br><br>
+        <!-- TITLE -->
+        <div class="mb-3">
+            <label>Title</label>
+            <input type="text" name="title" class="form-control" placeholder="Enter title" required>
+        </div>
 
-    Type:
-    <select name="type">
-        <option value="INCOME">Income</option>
-        <option value="EXPENSE">Expense</option>
-    </select><br><br>
+        <!-- AMOUNT -->
+        <div class="mb-3">
+            <label>Amount</label>
+            <input type="number" name="amount" class="form-control" placeholder="Enter amount" required>
+        </div>
 
-    <button type="submit">Save</button>
+        <!-- TYPE -->
+        <div class="mb-3">
+            <label>Type</label>
+            <select name="type" class="form-select" required>
+                <option value="INCOME">INCOME</option>
+                <option value="EXPENSE">EXPENSE</option>
+            </select>
+        </div>
 
-</form>
+        <!-- SUBMIT -->
+        <button type="submit" class="btn btn-primary">
+            Save Transaction
+        </button>
 
-<br>
-<a href="/home">Back to Home</a>
+    </form>
+
+    <div class="back-link">
+        <a href="/dashboard">← Back to Dashboard</a>
+    </div>
+
+</div>
 
 </body>
 </html>

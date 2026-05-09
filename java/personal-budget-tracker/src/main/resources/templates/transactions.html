@@ -1,11 +1,179 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Transactions</title>
+    <title>All Transactions</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f7fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background: #0d1b2a;
+            color: white;
+            padding: 18px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .container-box {
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .card-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+        }
+
+        th {
+            background: #0d1b2a;
+            color: white;
+            text-align: center;
+            padding: 12px;
+        }
+
+        td {
+            text-align: center;
+            padding: 10px;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        .income {
+            color: green;
+            font-weight: bold;
+        }
+
+        .expense {
+            color: red;
+            font-weight: bold;
+        }
+
+        .btn-edit {
+            background: #007bff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .btn-edit:hover,
+        .btn-delete:hover {
+            opacity: 0.85;
+            color: white;
+        }
+
+        .btn-add {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background: #28a745;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .btn-add:hover {
+            background: #218838;
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
 
-<h1>Transactions Page</h1>
+<!-- HEADER -->
+<div class="header">
+    All Transactions
+</div>
+
+<div class="container container-box">
+
+    <div class="card-box">
+
+        <!-- ADD BUTTON -->
+        <a href="/add" class="btn-add">
+            + Add Transaction
+        </a>
+
+        <!-- TABLE -->
+        <table class="table table-bordered">
+
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="t : ${transactions}">
+
+                    <td th:text="${t.title}"></td>
+
+                    <td>₹ <span th:text="${t.amount}"></span></td>
+
+                    <td>
+                        <span th:text="${t.type}"
+                              th:classappend="${t.type == 'INCOME'} ? 'income' : 'expense'">
+                        </span>
+                    </td>
+
+                    <td th:text="${t.date}"></td>
+
+                    <!-- ACTIONS -->
+                    <td>
+
+                        <a th:href="@{'/edit/' + ${t.id}}" class="btn-edit">
+                            Edit
+                        </a>
+
+                        <a th:href="@{'/delete/' + ${t.id}}"
+                           onclick="return confirm('Are you sure?')"
+                           class="btn-delete">
+                            Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
 
 </body>
 </html>
