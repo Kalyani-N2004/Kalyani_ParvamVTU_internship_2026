@@ -13,7 +13,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // REGISTER
+    // =========================
+    // REGISTER USER
+    // =========================
     public String saveUser(User user) {
 
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
@@ -24,7 +26,9 @@ public class UserService {
         return "Registration Successful!";
     }
 
-    // LOGIN (NEW FIX)
+    // =========================
+    // LOGIN USER
+    // =========================
     public User loginUser(String email, String password) {
 
         Optional<User> user = userRepository.findByEmail(email);
@@ -34,5 +38,19 @@ public class UserService {
         }
 
         return null;
+    }
+
+    // =========================
+    // UPDATE USER (USED FOR BUDGET)
+    // =========================
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    // =========================
+    // GET USER BY EMAIL (OPTIONAL USEFUL)
+    // =========================
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

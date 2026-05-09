@@ -34,6 +34,7 @@
         .income { background: #28a745; }
         .expense { background: #dc3545; }
         .savings { background: #007bff; }
+        .budget { background: #ffc107; color: black; }
     </style>
 </head>
 
@@ -46,6 +47,7 @@
         <div class="col-md-2 sidebar">
             <h4>Finance Tracker</h4>
 
+            <!-- FIXED LINKS -->
             <a href="/dashboard">Dashboard</a>
             <a href="/home">Transactions</a>
             <a href="/add">Add Transaction</a>
@@ -60,26 +62,62 @@
 
             <h2>Dashboard</h2>
 
+            <!-- BUDGET WARNING -->
+            <div th:if="${warning}" class="alert alert-danger">
+                <b th:text="${warning}"></b>
+            </div>
+
             <div class="row g-3">
 
-                <div class="col-md-4">
+                <!-- INCOME -->
+                <div class="col-md-3">
                     <div class="card-box income">
                         <h5>Income</h5>
                         <h3>₹ <span th:text="${income}">0</span></h3>
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <!-- EXPENSE -->
+                <div class="col-md-3">
                     <div class="card-box expense">
                         <h5>Expense</h5>
                         <h3>₹ <span th:text="${expense}">0</span></h3>
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <!-- BALANCE -->
+                <div class="col-md-3">
                     <div class="card-box savings">
                         <h5>Balance</h5>
                         <h3>₹ <span th:text="${balance}">0</span></h3>
+                    </div>
+                </div>
+
+                <!-- BUDGET -->
+                <div class="col-md-3">
+                    <div class="card-box budget">
+
+                        <h5>Budget</h5>
+
+                        <!-- SET BUDGET -->
+                        <form action="/setBudget" method="post">
+                            <input type="number"
+                                   name="budget"
+                                   class="form-control mb-2"
+                                   placeholder="Enter Budget"
+                                   min="0"
+                                   required>
+
+                            <button class="btn btn-dark btn-sm w-100">
+                                Set Budget
+                            </button>
+                        </form>
+
+                        <!-- DISPLAY BUDGET SAFE -->
+                        <h3 class="mt-2">
+                            ₹ <span th:text="${budget != null ? budget : 0}">0</span>
+                        </h3>
+
                     </div>
                 </div>
 
@@ -87,6 +125,7 @@
 
             <br><br>
 
+            <!-- CHART -->
             <canvas id="myChart"></canvas>
 
         </div>

@@ -12,10 +12,13 @@ public class User {
 
     private String name;
 
-    @Column(unique = true) // 🔥 IMPORTANT
+    @Column(unique = true)
     private String email;
 
     private String password;
+
+    // ✅ ADD THIS FIELD
+    private Double budget;
 
     public User() {}
 
@@ -49,5 +52,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    // ✅ GETTER + SETTER FOR BUDGET
+    public Double getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Double budget) {
+        this.budget = budget;
     }
 }

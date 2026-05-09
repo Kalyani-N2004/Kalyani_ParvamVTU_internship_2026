@@ -3,6 +3,7 @@ package com.kalyani.finance.controller;
 import com.kalyani.finance.entity.Transaction;
 import com.kalyani.finance.entity.User;
 import com.kalyani.finance.service.TransactionService;
+import com.kalyani.finance.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,24 +16,8 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
-    // ================= DASHBOARD =================
-    @GetMapping("/dashboard")
-    public String dashboard(Model model, HttpSession session) {
-
-        User user = (User) session.getAttribute("user");
-
-        if (user == null) {
-            return "redirect:/login";
-        }
-
-        model.addAttribute("transactions", transactionService.getUserTransactions(user));
-        model.addAttribute("income", transactionService.getTotalIncome(user));
-        model.addAttribute("expense", transactionService.getTotalExpense(user));
-        model.addAttribute("balance", transactionService.getBalance(user));
-        model.addAttribute("transaction", new Transaction());
-
-        return "dashboard";
-    }
+    @Autowired
+    private UserService userService;
 
     // ================= ADD PAGE =================
     @GetMapping("/add")
@@ -64,7 +49,7 @@ public class TransactionController {
         return "redirect:/dashboard";
     }
 
-    // ================= ALL TRANSACTIONS PAGE =================
+    // ================= ALL TRANSACTIONS =================
     @GetMapping("/home")
     public String transactionsPage(Model model, HttpSession session) {
 
@@ -105,6 +90,25 @@ public class TransactionController {
         }
 
         transactionService.saveTransaction(transaction, user);
+
+        return "redirect:/dashboard";
+    }
+
+    // ================= SET BUDGET =================
+    @PostMapping("/setBudget")
+    public String setBudget(@RequestParam("budget") double budget,
+                            HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        user.setBudget(budget);
+        session.setAttribute("user", user);
+
+        userService.saveUser(user); // OR updateUser if you created it
 
         return "redirect:/dashboard";
     }
