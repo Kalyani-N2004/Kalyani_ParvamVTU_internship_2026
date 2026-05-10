@@ -15,34 +15,54 @@ public class DashboardController {
     @Autowired
     private TransactionService transactionService;
 
+    // =========================
+    // WALLET DASHBOARD (STEP 4.7)
+    // =========================
     @GetMapping("/dashboard")
     public String dashboard(Model model, HttpSession session) {
 
+        // =========================
+        // CHECK USER SESSION
+        // =========================
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
             return "redirect:/login";
         }
 
+        // =========================
+        // FINANCIAL CALCULATIONS
+        // =========================
         double income = transactionService.getTotalIncome(user);
         double expense = transactionService.getTotalExpense(user);
         double balance = transactionService.getBalance(user);
 
-        // ✅ SAFE BUDGET HANDLING
-        double budget = (user.getBudget() != null) ? user.getBudget() : 0.0;
+        // =========================
+        // WALLET BUDGET LOGIC (SAFE)
+        // =========================
+        double budget = user.getBudget() != null ? user.getBudget() : 0.0;
 
         double remainingBudget = budget - expense;
 
-        double usagePercent = (budget > 0) ? (expense / budget) * 100 : 0.0;
+        double usagePercent = 0.0;
+        if (budget > 0) {
+            usagePercent = (expense / budget) * 100;
+        }
 
+        // =========================
+        // ALERT SYSTEM (WALLET FEATURE)
+        // =========================
         String warning = null;
 
         if (budget > 0 && expense > budget) {
-            warning = "⚠️ You have exceeded your budget!";
+            warning = "🚨 You have exceeded your budget!";
         } else if (budget > 0 && usagePercent >= 80) {
             warning = "⚠️ You are close to your budget limit!";
         }
 
+        // =========================
+        // MODEL DATA (FRONTEND READY)
+        // =========================
         model.addAttribute("income", income);
         model.addAttribute("expense", expense);
         model.addAttribute("balance", balance);
@@ -50,9 +70,12 @@ public class DashboardController {
         model.addAttribute("budget", budget);
         model.addAttribute("remainingBudget", remainingBudget);
         model.addAttribute("usagePercent", usagePercent);
+
         model.addAttribute("warning", warning);
 
-        model.addAttribute("transactions", transactionService.getUserTransactions(user));
+        model.addAttribute("transactions",
+                transactionService.getUserTransactions(user));
+
         model.addAttribute("transaction", new Transaction());
 
         return "dashboard";

@@ -25,7 +25,7 @@
         }
 
         .container-box {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 30px auto;
         }
 
@@ -64,6 +64,13 @@
         .expense {
             color: red;
             font-weight: bold;
+        }
+
+        .category-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #e9ecef;
+            font-size: 13px;
         }
 
         .btn-edit {
@@ -131,21 +138,37 @@
                     <th>Title</th>
                     <th>Amount</th>
                     <th>Type</th>
+                    <th>Category</th>
                     <th>Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
 
             <tbody>
+
+                <tr th:if="${transactions == null || #lists.isEmpty(transactions)}">
+                    <td colspan="6">No transactions found</td>
+                </tr>
+
                 <tr th:each="t : ${transactions}">
 
                     <td th:text="${t.title}"></td>
 
-                    <td>₹ <span th:text="${t.amount}"></span></td>
+                    <td>
+                        ₹ <span th:text="${t.amount}"></span>
+                    </td>
 
+                    <!-- TYPE -->
                     <td>
                         <span th:text="${t.type}"
                               th:classappend="${t.type == 'INCOME'} ? 'income' : 'expense'">
+                        </span>
+                    </td>
+
+                    <!-- CATEGORY (NEW) -->
+                    <td>
+                        <span class="category-badge"
+                              th:text="${t.category != null ? t.category.name : 'Uncategorized'}">
                         </span>
                     </td>
 
@@ -167,6 +190,7 @@
                     </td>
 
                 </tr>
+
             </tbody>
 
         </table>

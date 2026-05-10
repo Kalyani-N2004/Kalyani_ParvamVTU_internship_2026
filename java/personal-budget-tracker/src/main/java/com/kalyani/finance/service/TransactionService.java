@@ -1,8 +1,10 @@
 package com.kalyani.finance.service;
 
+import com.kalyani.finance.dto.CategorySpendingDTO;
 import com.kalyani.finance.entity.Transaction;
 import com.kalyani.finance.entity.User;
 import com.kalyani.finance.repository.TransactionRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,64 +17,117 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    // SAVE
-    public Transaction saveTransaction(Transaction transaction, User user) {
+    // =========================
+    // SAVE / UPDATE TRANSACTION
+    // =========================
+    public Transaction saveTransaction(Transaction transaction,
+                                       User user) {
 
-        transaction.setDate(LocalDate.now());
+        // SET USER
         transaction.setUser(user);
 
+        // SET DATE IF NULL
+        if (transaction.getDate() == null) {
+            transaction.setDate(LocalDate.now());
+        }
+
+        // NORMALIZE TYPE
         if (transaction.getType() != null) {
-            transaction.setType(transaction.getType().trim().toUpperCase());
+
+            transaction.setType(
+                    transaction.getType()
+                            .trim()
+                            .toUpperCase()
+            );
         }
 
         return transactionRepository.save(transaction);
     }
 
-    // GET ALL USER TXN
+    // =========================
+    // GET ALL USER TRANSACTIONS
+    // =========================
     public List<Transaction> getUserTransactions(User user) {
+
         return transactionRepository.findByUser(user);
     }
 
-    // INCOME
-    public double getTotalIncome(User user) {
-        return transactionRepository.findByUser(user)
-                .stream()
-                .filter(t -> "INCOME".equalsIgnoreCase(t.getType()))
-                .mapToDouble(Transaction::getAmount)
-                .sum();
-    }
-
-    // EXPENSE
-    public double getTotalExpense(User user) {
-        return transactionRepository.findByUser(user)
-                .stream()
-                .filter(t -> "EXPENSE".equalsIgnoreCase(t.getType()))
-                .mapToDouble(Transaction::getAmount)
-                .sum();
-    }
-
-    // BALANCE
-    public double getBalance(User user) {
-        return getTotalIncome(user) - getTotalExpense(user);
-    }
-
-    // GET BY ID (MISSING BEFORE — IMPORTANT FIX)
+    // =========================
+    // GET TRANSACTION BY ID
+    // =========================
     public Transaction getById(Long id) {
-        return transactionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Transaction not found: " + id));
+
+        return transactionRepository
+                .findById(id)
+                .orElse(null);
     }
 
-    // DELETE
-    public void deleteTransaction(Long id, User user) {
+    // =========================
+    // TOTAL INCOME
+    // =========================
+    public double getTotalIncome(User user) {
+
+        Double income =
+                transactionRepository.getTotalIncome(user);
+
+        return income != null ? income : 0.0;
+    }
+
+    // =========================
+    // TOTAL EXPENSE
+    // =========================
+    public double getTotalExpense(User user) {
+
+        Double expense =
+                transactionRepository.getTotalExpense(user);
+
+        return expense != null ? expense : 0.0;
+    }
+
+    // =========================
+    // BALANCE
+    // =========================
+    public double getBalance(User user) {
+
+        return getTotalIncome(user)
+                - getTotalExpense(user);
+    }
+
+    // =========================
+    // DELETE TRANSACTION
+    // =========================
+    public void deleteTransaction(Long id,
+                                  User user) {
 
         Transaction transaction = getById(id);
 
-        if (transaction.getUser() != null &&
-            transaction.getUser().getId().equals(user.getId())) {
-
-            transactionRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Unauthorized delete attempt");
+        // CHECK NULL
+        if (transaction == null) {
+            return;
         }
+
+        // SECURITY CHECK
+        if (transaction.getUser() != null &&
+                transaction.getUser()
+                        .getId()
+                        .equals(user.getId())) {
+
+            transactionRepository.delete(transaction);
+
+        } else {
+
+            throw new RuntimeException(
+                    "Unauthorized delete attempt"
+            );
+        }
+    }
+
+    // =========================
+    // CATEGORY WISE SPENDING
+    // =========================
+    public List<CategorySpendingDTO> getCategorySpending(User user) {
+
+        return transactionRepository
+                .getCategoryWiseSpending(user.getId());
     }
 }

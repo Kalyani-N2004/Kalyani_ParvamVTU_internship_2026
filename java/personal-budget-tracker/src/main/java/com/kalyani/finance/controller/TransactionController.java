@@ -2,9 +2,11 @@ package com.kalyani.finance.controller;
 
 import com.kalyani.finance.entity.Transaction;
 import com.kalyani.finance.entity.User;
+import com.kalyani.finance.service.CategoryService;
 import com.kalyani.finance.service.TransactionService;
-import com.kalyani.finance.service.UserService;
+
 import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,113 +19,144 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @Autowired
-    private UserService userService;
+    private CategoryService categoryService;
 
-    // ================= ADD PAGE =================
+    // =========================
+    // OPEN ADD TRANSACTION PAGE
+    // =========================
     @GetMapping("/add")
-    public String addPage(HttpSession session, Model model) {
+    public String addPage(HttpSession session,
+                          Model model) {
 
         User user = (User) session.getAttribute("user");
 
+        // CHECK LOGIN
         if (user == null) {
             return "redirect:/login";
         }
 
+        // EMPTY TRANSACTION OBJECT
         model.addAttribute("transaction", new Transaction());
+
+        // LOAD USER CATEGORIES
+        model.addAttribute("categories",
+                categoryService.getUserCategories(user));
+
         return "add-transaction";
     }
 
-    // ================= SAVE TRANSACTION =================
+    // =========================
+    // SAVE NEW TRANSACTION
+    // =========================
     @PostMapping("/addTransaction")
-    public String saveTransaction(@ModelAttribute Transaction transaction,
-                                  HttpSession session) {
+    public String saveTransaction(
+            @ModelAttribute Transaction transaction,
+            HttpSession session) {
 
         User user = (User) session.getAttribute("user");
 
+        // CHECK LOGIN
         if (user == null) {
             return "redirect:/login";
         }
 
+        // SAVE TRANSACTION
         transactionService.saveTransaction(transaction, user);
 
         return "redirect:/dashboard";
     }
 
-    // ================= ALL TRANSACTIONS =================
+    // =========================
+    // SHOW ALL TRANSACTIONS
+    // =========================
     @GetMapping("/home")
-    public String transactionsPage(Model model, HttpSession session) {
+    public String transactionsPage(Model model,
+                                   HttpSession session) {
 
         User user = (User) session.getAttribute("user");
 
+        // CHECK LOGIN
         if (user == null) {
             return "redirect:/login";
         }
 
-        model.addAttribute("transactions", transactionService.getUserTransactions(user));
+        // LOAD TRANSACTIONS
+        model.addAttribute("transactions",
+                transactionService.getUserTransactions(user));
 
         return "transactions";
     }
 
-    // ================= EDIT =================
+    // =========================
+    // OPEN EDIT PAGE
+    // =========================
     @GetMapping("/edit/{id}")
-    public String editTransaction(@PathVariable Long id, Model model, HttpSession session) {
+    public String editTransaction(@PathVariable Long id,
+                                  Model model,
+                                  HttpSession session) {
 
         User user = (User) session.getAttribute("user");
 
+        // CHECK LOGIN
         if (user == null) {
             return "redirect:/login";
         }
 
-        model.addAttribute("transaction", transactionService.getById(id));
+        // GET TRANSACTION
+        Transaction transaction =
+                transactionService.getById(id);
+
+        // CHECK NULL
+        if (transaction == null) {
+            return "redirect:/dashboard";
+        }
+
+        // SEND TRANSACTION
+        model.addAttribute("transaction", transaction);
+
+        // SEND CATEGORIES
+        model.addAttribute("categories",
+                categoryService.getUserCategories(user));
+
         return "edit-transaction";
     }
 
-    // ================= UPDATE =================
+    // =========================
+    // UPDATE TRANSACTION
+    // =========================
     @PostMapping("/update")
-    public String updateTransaction(@ModelAttribute Transaction transaction,
-                                    HttpSession session) {
+    public String updateTransaction(
+            @ModelAttribute Transaction transaction,
+            HttpSession session) {
 
         User user = (User) session.getAttribute("user");
 
+        // CHECK LOGIN
         if (user == null) {
             return "redirect:/login";
         }
 
+        // UPDATE TRANSACTION
         transactionService.saveTransaction(transaction, user);
 
         return "redirect:/dashboard";
     }
 
-    // ================= SET BUDGET =================
-    @PostMapping("/setBudget")
-    public String setBudget(@RequestParam("budget") double budget,
-                            HttpSession session) {
-
-        User user = (User) session.getAttribute("user");
-
-        if (user == null) {
-            return "redirect:/login";
-        }
-
-        user.setBudget(budget);
-        session.setAttribute("user", user);
-
-        userService.saveUser(user); // OR updateUser if you created it
-
-        return "redirect:/dashboard";
-    }
-
-    // ================= DELETE =================
+    // =========================
+    // DELETE TRANSACTION
+    // =========================
     @GetMapping("/delete/{id}")
     public String deleteTransaction(@PathVariable Long id,
                                     HttpSession session) {
 
         User user = (User) session.getAttribute("user");
 
+        // CHECK LOGIN
         if (user == null) {
             return "redirect:/login";
         }
 
+        // DELETE TRANSACTION
         transactionService.deleteTransaction(id, user);
 
         return "redirect:/dashboard";
